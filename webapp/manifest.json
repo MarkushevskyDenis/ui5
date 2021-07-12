@@ -1,0 +1,123 @@
+{
+  "_version": "1.32.0",
+  "sap.app": {
+    "id": "ui5demo",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "ach": "ach",
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZDM_C_EXCHANGE_RATE_API",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "localService/metadata.xml"
+        }
+      }
+		}
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://task",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+
+  "sap.ui5": {
+    "flexEnabled": false,
+    "rootView": {
+      "viewName": "ui5demo.view.Root",
+      "type": "XML",
+      "async": true,
+      "id": "RootId"
+    },
+    "dependencies": {
+      "minUI5Version": "1.66.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "ui5demo.i18n.i18n"
+        }
+      },
+			"ODataModel": {
+				"dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+      }
+
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "ui5demo.view",
+        "controlAggregation": "pages",
+        "controlId": "RootId",
+        "clearControlAggregation": false,
+        "bypassed":{
+          "target": "notFound"
+        }
+      },
+      "routes": [
+        {
+          "name": "RouteDiagram",
+          "pattern": "",
+          "target": ["TargetDiagram"]
+        },
+        {
+          "name": "Second",
+          "pattern":"Second",
+          "target":["Second"]
+        }
+      ],
+      "targets": {
+        "TargetDiagram": {
+          "viewName": "Diagram"
+        },
+        "notFound": {
+          "viewName": "test/NotFound"
+        },
+        "Second":{
+          "viewName": "test/Second"
+        }
+      }
+    }
+  }
+}

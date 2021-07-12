@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://vhcala4hci:50000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://vhcala4hci:50000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://vhcala4hci:50000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://vhcala4hci:50000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://vhcala4hci:50000/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="cds_zdm_c_exchange_rate_cds" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="zdm_c_exchange_rateType" sap:label="consumption view for exchange rate" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Fyear"/>
+                    <PropertyRef Name="Fperiod"/>
+                    <PropertyRef Name="Currencykey"/>
+                    <PropertyRef Name="Ratetype"/>
+                </Key>
+                <Property Name="Fyear" Type="Edm.Int16" Nullable="false"/>
+                <Property Name="Fperiod" Type="Edm.Byte" Nullable="false"/>
+                <Property Name="Currencykey" Type="Edm.String" Nullable="false" MaxLength="5" sap:label="" sap:quickinfo="data element for currency" sap:semantics="currency-code"/>
+                <Property Name="Ratetype" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase" sap:text="ERName" sap:label="" sap:quickinfo="data element for id"/>
+                <Property Name="Rate" Type="Edm.Decimal" Precision="6" Scale="4" sap:unit="Currencykey" sap:label="" sap:quickinfo="data element for rate"/>
+                <Property Name="Qty" Type="Edm.Decimal" Precision="6" Scale="0"/>
+                <Property Name="ERName" Type="Edm.String" MaxLength="50" sap:creatable="false" sap:updatable="false"/>
+            </EntityType>
+            <ComplexType Name="DummyFunctionImportResult">
+                <Property Name="IsInvalid" Type="Edm.Boolean" sap:label="TRUE"/>
+            </ComplexType>
+            <EntityContainer Name="cds_zdm_c_exchange_rate_cds_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="zdm_c_exchange_rate" EntityType="cds_zdm_c_exchange_rate_cds.zdm_c_exchange_rateType" sap:content-version="1"/>
+                <FunctionImport Name="zdm_c_exchange_rateZdm_exchange_rate" ReturnType="cds_zdm_c_exchange_rate_cds.DummyFunctionImportResult" m:HttpMethod="POST" sap:action-for="cds_zdm_c_exchange_rate_cds.zdm_c_exchange_rateType">
+                    <Parameter Name="Fyear" Type="Edm.Int16" Mode="In"/>
+                    <Parameter Name="Fperiod" Type="Edm.Byte" Mode="In"/>
+                    <Parameter Name="Currencykey" Type="Edm.String" Mode="In" MaxLength="5"/>
+                    <Parameter Name="Ratetype" Type="Edm.String" Mode="In" MaxLength="1"/>
+                    <Parameter Name="Currencycode" Type="Edm.String" Mode="In" MaxLength="4"/>
+                    <Parameter Name="Operation" Type="Edm.String" Mode="In" MaxLength="1"/>
+                </FunctionImport>
+            </EntityContainer>
+            <Annotations Target="cds_zdm_c_exchange_rate_cds.cds_zdm_c_exchange_rate_cds_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="None"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zdm_c_exchange_rate_cds.zdm_c_exchange_rateType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.SemanticKey">
+                    <Collection>
+                        <PropertyPath>Currencykey</PropertyPath>
+                        <PropertyPath>Fperiod</PropertyPath>
+                        <PropertyPath>Fyear</PropertyPath>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://vhcala4hci:50000/sap/opu/odata/sap/ZDM_C_EXCHANGE_RATE_API/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://vhcala4hci:50000/sap/opu/odata/sap/ZDM_C_EXCHANGE_RATE_API/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

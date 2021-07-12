@@ -1,0 +1,41 @@
+<mvc:View
+    controllerName="ui5demo.controller.Diagram"
+    xmlns:mvc="sap.ui.core.mvc"
+	xmlns:viz="sap.viz.ui5"
+	xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified"
+	xmlns:l="sap.ui.layout"
+    displayBlock="true"
+	xmlns="sap.m">
+	
+<Page title = "Exchange rate" >
+
+	<VBox id = "MainBox" class="page2BgImg">
+		<VBox id = "SecondBox" >
+			
+			<Button id = "Menu" text = "Open Menu" press = "onMenuOpen" ariaHasPopup = "Menu"/>
+		
+			<HBox alignItems = "Start" justifyContent = "Center">
+				<u:Calendar id = "Calendar" select = "onCalendarSelect" intervalSelection = "true" />
+ 			</HBox>
+		
+			<HBox alignItems = "Start" justifyContent = "Center">	
+				<ComboBox id = "ComboBox" showSecondaryValues = "true" items = "{/results}" change = "onChange" busy = "true" >
+					<core:ListItem text="{Currencykey}" additionalText = "{Qty}"/>	
+				</ComboBox>
+				<Button id = "GetDynamic" text = "Get dynamic" press = "onClick" ></Button>
+			</HBox>
+		
+			<HBox>
+				<MaskInput id = "StartDate" mask = "9999-99-99" value = "start date" visible = "false"/>
+				<MaskInput id = "EndDate" mask = "9999-99-99" value = "end date" visible = "false"/>
+			</HBox>
+
+		</VBox>
+
+		<viz:Column id = "Diagram" visible = "true" width = "100%" />
+
+	</VBox>
+</Page>
+
+</mvc:View>
