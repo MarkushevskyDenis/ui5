@@ -9,7 +9,7 @@
 	xmlns="sap.m">
 	
 <Page title = "Exchange rate" >
-
+	
 	<VBox id = "MainBox" class="page2BgImg">
 		<VBox id = "SecondBox" >
 			

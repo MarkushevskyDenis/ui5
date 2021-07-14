@@ -19,7 +19,7 @@ sap.ui.define([
 			formatter: formatter,
 
             onInit: function () {
-				var oModel = this.getOwnerComponent().getModel("ODataModel");
+
 				initThis = this;
 				this.getOwnerComponent().getModel("ODataModel").read("/zdm_i_archive", {
 

@@ -71,6 +71,9 @@
         "settings": {
           "defaultBindingMode": "TwoWay"
         }
+      },
+      "CSSModel":{
+        "type": "sap.ui.model.json.JSONModel"
       }
     },
     "resources": {

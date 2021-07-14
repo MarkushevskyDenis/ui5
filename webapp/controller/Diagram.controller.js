@@ -37,7 +37,6 @@ sap.ui.define([
 						that.onLoadItems();
 						that.byId("ComboBox").setProperty("busy", false);
 
-
 					},
 
 					error: function (error) {
@@ -70,12 +69,12 @@ sap.ui.define([
 			onLoadItems: function () {
 
 				var oModel;
-
+				
 				oData1.results = this._onlyUnique(oData1.results);
 				oModel = new sap.ui.model.json.JSONModel(oData1);
 				oModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 				this.getView().setModel(oModel);
-
+				
 			},
 
 			onClick: function (oEvent) {
@@ -133,8 +132,9 @@ sap.ui.define([
 				});
 				
 				bar.setDataset(dataset);
-				document.getElementById("__xmlview0--MainBox").setAttribute("class", "");
-				document.getElementById("__xmlview0--SecondBox").setAttribute("class", "page2BgImg");
+				
+				document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "");
+				document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "page2BgImg");
 
 			},
 
