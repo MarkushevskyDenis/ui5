@@ -1,7 +1,7 @@
 sap.ui.define([
 
 	"sap/ui/core/mvc/Controller",
-	"ui5demo/model/formatter"
+	"../model/formatter"
 
 ],
 	/**
@@ -115,9 +115,7 @@ sap.ui.define([
 						name: "Date",
 						value: {
 							path: "Erdate",
-							formatter: function (fValue) {
-								return sap.ui.core.format.DateFormat.getDateTimeInstance({ pattern: "dd-MM-yyyy" }).format(new Date(fValue));
-							}
+							formatter: formatter.dateFormat
 						}
 					}],
 

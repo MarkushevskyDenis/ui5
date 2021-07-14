@@ -20,7 +20,7 @@
           "localUri": "localService/metadata.xml"
         }
       }
-		}
+    }
   },
   "sap.ui": {
     "technology": "UI5",
@@ -38,7 +38,6 @@
       "phone": true
     }
   },
-
   "sap.ui5": {
     "flexEnabled": false,
     "rootView": {
@@ -66,13 +65,12 @@
           "bundleName": "ui5demo.i18n.i18n"
         }
       },
-			"ODataModel": {
-				"dataSource": "mainService",
+      "ODataModel": {
+        "dataSource": "mainService",
         "preload": true,
         "settings": {
           "defaultBindingMode": "TwoWay"
-      }
-
+        }
       }
     },
     "resources": {
@@ -91,7 +89,7 @@
         "controlAggregation": "pages",
         "controlId": "RootId",
         "clearControlAggregation": false,
-        "bypassed":{
+        "bypassed": {
           "target": "notFound"
         }
       },
@@ -99,12 +97,16 @@
         {
           "name": "RouteDiagram",
           "pattern": "",
-          "target": ["TargetDiagram"]
+          "target": [
+            "TargetDiagram"
+          ]
         },
         {
           "name": "Second",
-          "pattern":"Second",
-          "target":["Second"]
+          "pattern": "Second",
+          "target": [
+            "Second"
+          ]
         }
       ],
       "targets": {
@@ -114,7 +116,7 @@
         "notFound": {
           "viewName": "test/NotFound"
         },
-        "Second":{
+        "Second": {
           "viewName": "test/Second"
         }
       }

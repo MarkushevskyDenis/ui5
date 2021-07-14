@@ -1,22 +1,24 @@
 
 sap.ui.define([
 
-    "sap/ui/core/mvc/Controller"
+    "sap/ui/core/mvc/Controller",
+	"../model/formatter"
 
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller) {
+    function (Controller, formatter) {
         "use strict";
 		
 		var oData1;
 		var initThis;
 		
         return Controller.extend("ui5demo.controller.Second", {
+			
+			formatter: formatter,
 
             onInit: function () {
-
 				var oModel = this.getOwnerComponent().getModel("ODataModel");
 				initThis = this;
 				this.getOwnerComponent().getModel("ODataModel").read("/zdm_i_archive", {

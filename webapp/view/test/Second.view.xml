@@ -18,7 +18,7 @@
 
 		<List id = "ListId" headerText="{i18n>title}" width = "50%" mode = "SingleSelectMaster" selectionChange = "onSelectionChange" items="{/results}">
 			<items>
-				<ObjectListItem title="{Currencykey}" number="{Rate}" intro="{Qty}"/>
+				<ObjectListItem title="{Currencykey}" number="{path:'Erdate', formatter:'.formatter.dateFormat'}" intro="{Qty}"/>
 			</items>
 		</List>
 
