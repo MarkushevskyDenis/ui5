@@ -6,11 +6,13 @@
 	xmlns:u="sap.ui.unified"
 	xmlns:l="sap.ui.layout"
     displayBlock="true"
+	xmlns:fb="sap.ui.comp.filterbar"
 	xmlns="sap.m">
 	
-<Page title = "Exchange rate" >
-	
+<Page showHeader = "false">
+
 	<VBox id = "MainBox" class="page2BgImg">
+	
 		<VBox id = "SecondBox" >
 			
 			<Button id = "Menu" text = "Open Menu" press = "onMenuOpen" ariaHasPopup = "Menu"/>
@@ -25,17 +27,13 @@
 				</ComboBox>
 				<Button id = "GetDynamic" text = "Get dynamic" press = "onClick" ></Button>
 			</HBox>
-		
-			<HBox>
-				<MaskInput id = "StartDate" mask = "9999-99-99" value = "start date" visible = "false"/>
-				<MaskInput id = "EndDate" mask = "9999-99-99" value = "end date" visible = "false"/>
-			</HBox>
 
 		</VBox>
-
-		<viz:Column id = "Diagram" visible = "true" width = "100%" />
+	
+		<viz:Column id = "Diagram" visible = "true" width = "100%"  />
 
 	</VBox>
+		
 </Page>
 
 </mvc:View>

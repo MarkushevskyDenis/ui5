@@ -16,11 +16,10 @@ sap.ui.define([
 		var oData1 = [];
 		var dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({ pattern: "yyyy-MM-dd" });
 		var text = "";
-
 		return Controller.extend("ui5demo.controller.Diagram", {
 
 			formatter: formatter,
-			
+
 			onInit: function () {
 
 				var that;
@@ -69,12 +68,12 @@ sap.ui.define([
 			onLoadItems: function () {
 
 				var oModel;
-				
+
 				oData1.results = this._onlyUnique(oData1.results);
 				oModel = new sap.ui.model.json.JSONModel(oData1);
 				oModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 				this.getView().setModel(oModel);
-				
+
 			},
 
 			onClick: function (oEvent) {
@@ -130,9 +129,9 @@ sap.ui.define([
 					}
 
 				});
-				
+
 				bar.setDataset(dataset);
-				
+		
 				document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "");
 				document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "page2BgImg");
 
@@ -200,11 +199,10 @@ sap.ui.define([
 						if (oData.synchronize.Ans == "ok") {
 
 							that.onInit();
-							alert("success");
+							sap.m.MessageToast.show("Success");
 
-						} else if (oData.synchronize.Ans == "bad") {
-
-							alert("error");
+						} else {
+							sap.m.MessageToast.show(oData.synchronize.Ans);
 
 						}
 
