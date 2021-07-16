@@ -17,7 +17,7 @@
 			
 			<Button id = "Menu" text = "Open Menu" press = "onMenuOpen" ariaHasPopup = "Menu"/>
 		
-			<HBox alignItems = "Start" justifyContent = "Center">
+			<HBox alignItems = "Start" justifyContent = "Center" >
 				<u:Calendar id = "Calendar" select = "onCalendarSelect" intervalSelection = "true" />
  			</HBox>
 		
@@ -30,10 +30,10 @@
 
 		</VBox>
 	
-		<viz:Column id = "Diagram" visible = "true" width = "100%"  />
+		<viz:controls.VizFrame id="Diagram" width = "100%" vizProperties = "{title: {visible: false}}" vizType="column" renderComplete = "onAfterRender" />
 
 	</VBox>
-		
+
 </Page>
 
 </mvc:View>

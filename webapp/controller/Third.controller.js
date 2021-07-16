@@ -75,22 +75,11 @@ sap.ui.define([
 
 				bar.setDataset(dataset);
 
-                var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-					'uid': "valueAxis",
-					'type': "Measure",
-					'values': ["Rate " + currencyCode]
-				}),
-					feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-						'uid': "categoryAxis",
-						'type': "Dimension",
-						'values': ["Date"]
-					});
 
-				bar.removeAllFeeds();
-				bar.addFeed(feedValueAxis);
-				bar.addFeed(feedCategoryAxis);
-
-			}
+			},
+            test: function(oEvent){
+                console.log(this.getView().byId("Diagram").getDataset().mBindingInfos.data.binding.aKeys.length);
+            }
 
 
         });

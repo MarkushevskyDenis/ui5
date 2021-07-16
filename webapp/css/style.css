@@ -3,3 +3,6 @@
     background-image: url(/image/Landscape-Color.jpg);
     background-size: 100% 100%;
   }
+.noVisible{
+  visibility: hidden;
+}

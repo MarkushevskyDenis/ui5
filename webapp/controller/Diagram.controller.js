@@ -36,10 +36,6 @@ sap.ui.define([
 						that.onLoadItems();
 						that.byId("ComboBox").setProperty("busy", false);
 
-					},
-
-					error: function (error) {
-						console.log(error);
 					}
 
 				});
@@ -71,19 +67,18 @@ sap.ui.define([
 
 				oData1.results = this._onlyUnique(oData1.results);
 				oModel = new sap.ui.model.json.JSONModel(oData1);
-				oModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 				this.getView().setModel(oModel);
 
 			},
 
 			onClick: function (oEvent) {
-			
+
 				var filter = [];
 				var bar;
 				var dataset;
 
 				if (currencyCode == "" || endDate == "" || startDate == "" || endDate == null) {
-					alert("Please enter a valid data");
+					sap.m.MessageToast.show("Please enter a valid data");
 					return;
 				}
 
@@ -131,10 +126,35 @@ sap.ui.define([
 				});
 
 				bar.setDataset(dataset);
-		
-				document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "");
-				document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "page2BgImg");
 
+				var feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+					'uid': "valueAxis",
+					'type': "Measure",
+					'values': ["Rate " + currencyCode]
+				}),
+					feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+						'uid': "categoryAxis",
+						'type': "Dimension",
+						'values': ["Date"]
+					});
+
+				bar.removeAllFeeds();
+				bar.addFeed(feedValueAxis);
+				bar.addFeed(feedCategoryAxis);
+
+			},
+
+			onAfterRender: function () {
+				if (this.getView().byId("Diagram").getDataset().mBindingInfos.data.binding.aKeys.length == 0) {
+					sap.m.MessageToast.show("No data");
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "page2BgImg");
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "");
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--Diagram").setAttribute("class", "noVisible");
+			
+				} else {
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "");
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "page2BgImg");
+				}
 			},
 
 			onMenuOpen: function () {

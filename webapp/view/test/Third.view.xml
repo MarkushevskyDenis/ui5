@@ -1,13 +1,13 @@
 <mvc:View
     controllerName="ui5demo.controller.Third"
-    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz="sap.viz.ui5"
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
 	xmlns="sap.m">
 
 	<Page>
 
-        <viz:VizFrame id="Diagram" uiConfig="{applicationSet:'fiori'}" height='100%' width="100%" vizType='column'/>
+        <viz:Column id = "Diagram" visible = "true" width = "100%"  />
 
 	</Page>
 
