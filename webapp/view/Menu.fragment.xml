@@ -5,6 +5,7 @@
 			<Menu itemSelected = "onMenuAction_MenuFrag">
 				<MenuItem id = "item1" text = "Synchronize"/>
 				<MenuItem id = "item2" text = "Second page"/>
+				<MenuItem id = "item3" text = "Third page"/>
 			</Menu>
 		
 </core:FragmentDefinition>

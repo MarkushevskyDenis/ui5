@@ -77,7 +77,7 @@ sap.ui.define([
 			},
 
 			onClick: function (oEvent) {
-
+			
 				var filter = [];
 				var bar;
 				var dataset;
@@ -171,6 +171,11 @@ sap.ui.define([
 
 					oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 					oRouter.navTo("Second");
+
+				} else if (oItem.sId == "item3") {
+
+					oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+					oRouter.navTo("Third");
 
 				}
 
