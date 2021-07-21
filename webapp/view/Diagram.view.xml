@@ -14,7 +14,7 @@
 	<VBox id = "MainBox" class="page2BgImg">
 	
 		<VBox id = "SecondBox" >
-			
+			<Button press = "onTest" />
 			<Button id = "Menu" text = "Open Menu" press = "onMenuOpen" ariaHasPopup = "Menu"/>
 		
 			<HBox alignItems = "Start" justifyContent = "Center" >
@@ -30,7 +30,7 @@
 
 		</VBox>
 	
-		<viz:controls.VizFrame id="Diagram" width = "100%" vizProperties = "{title: {visible: false}}" vizType="column" renderComplete = "onAfterRender" />
+		<viz:controls.VizFrame id="Diagram" width = "100%" uiConfig="{applicationSet:'ui5'}" vizProperties = "{title: {visible: false}}" vizType="column" renderComplete = "onAfterRender" />
 
 	</VBox>
 

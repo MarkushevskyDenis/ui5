@@ -19,7 +19,10 @@ sap.ui.define([
 		return Controller.extend("ui5demo.controller.Diagram", {
 
 			formatter: formatter,
-
+			onTest: function(){
+				console.log(new Date("2021-09-08"));
+				console.log(dateFormat.format(new Date("2021-08-08")));
+			},
 			onInit: function () {
 
 				var that;
@@ -51,7 +54,7 @@ sap.ui.define([
 			onCalendarSelect: function (oControlEvent) {
 
 				endDate = oControlEvent.getSource().getSelectedDates()[0].mProperties.endDate;
-
+				
 				if (endDate == null) {
 					return;
 				}

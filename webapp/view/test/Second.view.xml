@@ -4,9 +4,44 @@
 	xmlns:l="sap.ui.layout"
     displayBlock="true"
 	xmlns="sap.m"
+	xmlns:t="sap.ui.table"
 	xmlns:c="ui5demo.control">
 
 	<Page>
+
+		<t:Table id="table"
+			rows="{JSONModel>/results}"
+			selectionMode="MultiToggle"
+			rowSelectionChange="onSelect">
+			<t:columns>
+				<t:Column sortProperty="Qty">
+					<Label text="Количество" />
+					<t:template>
+						<Text text="{JSONModel>Qty}" wrapping="false" />
+					</t:template>
+				</t:Column>
+				<t:Column >
+					<Label text="Курс" />
+					<t:template>
+						<Text text="{JSONModel>Rate}" wrapping="false" />
+					</t:template>
+				</t:Column>
+				<t:Column >
+					<Label text="Дата" />
+					<t:template>
+						<Text text="{path: 'JSONModel>Erdate', formatter: '.formatter.dateFormat'}" wrapping="false" />
+					</t:template>
+				</t:Column>
+				<t:Column sortProperty="Currencykey">
+					<Label text="Валюта" />
+					<t:template>
+						<Text text="{JSONModel>Currencykey}" wrapping="false" />
+					</t:template>
+				</t:Column>
+			</t:columns>
+		</t:Table>
+
+		<Button press="getSelectedItems" />
 
 		<c:ProductRate valueSubmit = "onSubmit" />
 
@@ -16,9 +51,9 @@
 			</l:Grid>
 		</Panel>
 
-		<List id = "ListId" headerText="{i18n>title}" width = "50%" mode = "SingleSelectMaster" selectionChange = "onSelectionChange" items="{/results}">
+		<List id = "ListId" headerText="{i18n>title}" width = "50%" mode = "SingleSelectMaster" selectionChange = "onSelectionChange" items="{/}">
 			<items>
-				<ObjectListItem title="{Currencykey}" number="{path:'Erdate', formatter:'.formatter.dateFormat'}" intro="{Qty}"/>
+				<ObjectListItem intro="{Qty}" title="{Currencykey}" number="{Rate}"/>
 			</items>
 		</List>
 

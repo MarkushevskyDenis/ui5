@@ -7,8 +7,8 @@
 
 	<Page>
 
-        <viz:Column id = "Diagram" visible = "true" width = "100%"  />
-
+        <viz:Column id = "Diagram" visible = "true" width = "100%"   initialized = "onTest"  />
+        <Button press = "onClick" />
 	</Page>
 
 </mvc:View>
