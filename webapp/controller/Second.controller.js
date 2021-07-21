@@ -12,79 +12,80 @@ sap.ui.define([
 	function (Controller, formatter, JSONModel) {
 		"use strict";
 
-		var oData1;
 		var that;
-
-		var indexes = [];
-		var rows = [];
+		var indices = [];
+		var entities = [];
+		var defaultModel;
+		var JSONModel;
 
 		return Controller.extend("ui5demo.controller.Second", {
 
 			formatter: formatter,
 
 			onInit: function () {
-
 				that = this;
+
 				this.getOwnerComponent().getModel("ODataModel").read("/zdm_i_archive", {
 					success: function (oData) {
-						var oModel = new JSONModel(oData);
-						that.getView().setModel(oModel, "JSONModel");
+						JSONModel = new JSONModel(oData);
+						that.getView().setModel(JSONModel, "JSONModel");
 					}
 				});
+				defaultModel = new JSONModel(null);
+				this.getView().setModel(defaultModel);
 			},
-
 			onSelect: function (oEvent) {
-				var rowIndex = oEvent.getParameters().rowIndex;
+				var rowIndex;
 				var i;
+
+				rowIndex = oEvent.getParameters().rowIndex;
+
 				if (rowIndex != -1) {
-					if (this._isUnique(indexes, rowIndex)) {
-						indexes[indexes.length] = oEvent.getParameters().rowIndex;
-						rows[rows.length] = oEvent.getParameters().rowContext;
+					if (this._isUnique(indices, rowIndex)) {
+						indices[indices.length] = rowIndex;
+						entities[entities.length] = oEvent.getParameters().rowContext;
 					} else {
-						i = this._findElement(indexes, rowIndex);
-						this._deleteElement(indexes, i);
-						this._deleteElement(rows, i);
+						i = this._findElement(indices, rowIndex);
+						this._deleteElement(indices, i);
+						this._deleteElement(entities, i);
 					}
 				}
 			},
 			getSelectedItems: function () {
-				var str = "";
 				var data = [];
-				if (indexes.length == 0) {
-					if (this.getView().getModel() != undefined) {
-						this.getView().getModel().setData(null);
-					}
+
+				if (indices.length == 0) {
+					defaultModel.setData(null);
 					sap.m.MessageToast.show("nothing");
 				} else {
-					for (let i = 0; i < indexes.length; i++) {
-						str += indexes[i] + ","
-						data[i] = this.getView().getModel("JSONModel").getProperty(rows[i].sPath);
+					for (let i = 0; i < indices.length; i++) {
+						data[i] = JSONModel.getProperty(entities[i].sPath);
 					}
-
-					this.getView().setModel(new sap.ui.model.json.JSONModel(data));
-
-					indexes.length = 0;
-					rows.length = 0;
+					defaultModel.setData(data);
+					indices.length = 0;
+					entities.length = 0;
 					this.byId("table").clearSelection();
-
 				}
 			},
-
-			//------------
+			onSubmit: function (oEvent) {
+				sap.m.MessageToast.show(oEvent.getParameters().value);
+			},
 			onSelectionChange: function (oControlEvent) {
+				var oPopover;
+				var selectedItem;
+				var oContex;
+				var sPath;
 
-				var oPopover = this._getPopover();
+				oPopover = this._getPopover();
+				selectedItem = oControlEvent.getParameters().listItem;
+				oContex = selectedItem.getBindingContext();
+				sPath = oContex.getPath();
 
-				var selectedItem = oControlEvent.getParameters().listItem;
-				var oContex = selectedItem.getBindingContext();
-				var sPath = oContex.getPath();
 				this.byId("productsDetailPanel").bindElement({ path: sPath });
 
 				oPopover.bindElement({ path: sPath });
 				oPopover.openBy(oControlEvent.getParameters().listItem);
-
 			},
-
 			_isUnique: function (array, element) {
 				for (let i = 0; i < array.length; i++) {
 					if (array[i] == element) {
@@ -93,14 +94,12 @@ sap.ui.define([
 				}
 				return true;
 			},
-
 			_deleteElement: function (array, index) {
 				for (let i = index; i < array.length - 1; i++) {
 					array[i] = array[i + 1]
 				}
 				array.length--;
 			},
-
 			_findElement: function (array, element) {
 				for (let i = 0; i < array.length; i++) {
 					if (array[i] == element) {
@@ -109,18 +108,11 @@ sap.ui.define([
 				}
 			},
 			_getPopover: function () {
-				// create dialog lazily
 				if (!this._oPopover) {
-					// create popover via fragment factory
-					this._oPopover = sap.ui.xmlfragment(
-						"ui5demo.view.test.ResponsivePopover", this);
+					this._oPopover = sap.ui.xmlfragment("ui5demo.view.test.ResponsivePopover", this);
 					this.getView().addDependent(this._oPopover);
 				}
 				return this._oPopover;
-			},
-			onSubmit: function (oEvent) {
-				sap.m.MessageToast.show(oEvent.getParameters().value);
 			}
-
 		});
 	});
