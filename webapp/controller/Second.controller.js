@@ -84,9 +84,6 @@ sap.ui.define([
 					this.byId("table").clearSelection();
 				}
 			},
-			onSubmit: function (oEvent) {
-				sap.m.MessageToast.show(oEvent.getParameters().value);
-			},
 			onSelectionChange: function (oControlEvent) {
 				var oPopover;
 				var selectedItem;

@@ -4,8 +4,7 @@
 	xmlns:l="sap.ui.layout"
     displayBlock="true"
 	xmlns="sap.m"
-	xmlns:t="sap.ui.table"
-	xmlns:c="ui5demo.control">
+	xmlns:t="sap.ui.table">
 
 	<Page>
 
@@ -42,8 +41,6 @@
 		</t:Table>
 
 		<Button press="getSelectedItems" />
-
-		<c:ProductRate valueSubmit = "onSubmit" />
 
 		<Panel id = "productsDetailPanel">
 			<l:Grid>

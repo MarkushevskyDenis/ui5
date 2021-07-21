@@ -81,6 +81,9 @@ sap.ui.define([
 			onTest: function(){
 				console.log(t);
 			},
+			onSubmit: function (oEvent) {
+				sap.m.MessageToast.show(oEvent.getParameters().value);
+			},
 			onClick: function(){
 				var filter = [];
 				var bar;

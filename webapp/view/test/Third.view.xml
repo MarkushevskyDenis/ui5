@@ -3,10 +3,11 @@
     xmlns:viz="sap.viz.ui5"
     xmlns:mvc="sap.ui.core.mvc"
     displayBlock="true"
+    xmlns:c="ui5demo.control"
 	xmlns="sap.m">
 
 	<Page>
-
+        <c:ProductRate valueSubmit = "onSubmit" />
         <viz:Column id = "Diagram" visible = "true" width = "100%"   initialized = "onTest"  />
         <Button press = "onClick" />
 	</Page>

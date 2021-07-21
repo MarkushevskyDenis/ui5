@@ -14,7 +14,7 @@
 	<VBox id = "MainBox" class="page2BgImg">
 	
 		<VBox id = "SecondBox" >
-			<Button press = "onTest" />
+
 			<Button id = "Menu" text = "Open Menu" press = "onMenuOpen" ariaHasPopup = "Menu"/>
 		
 			<HBox alignItems = "Start" justifyContent = "Center" >

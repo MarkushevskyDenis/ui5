@@ -6,3 +6,7 @@
 .noVisible{
   visibility: hidden;
 }
+.noFound{
+  background-image: url(/image/Untitled.png);
+  background-size: 100% 100%;
+}
