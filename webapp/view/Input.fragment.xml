@@ -2,18 +2,22 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 		
-		<Dialog>
-                
+		<Dialog showHeader = "false">
+
+			<VBox  alignItems = "End">
+				<Button icon = "/image/close.png" press = "test" />
+            </VBox>
+			
             <List id = "List_InputFrag" headerText = "Choose currency or input new" mode = "SingleSelectMaster" selectionChange = "onSelectionChange_InputFrag" items = "{/results}">
 			    <items>
 				    <ObjectListItem title="{Currencykey}" />
 			    </items>
 		    </List>
                 
-            <Input id = "Input_InputFrag" 	liveChange="onLiveChange_InputFrag"/>
-                
-            <Button id = "Button_InputFrag" press = "onClick_InputFrag"/>
-            
+            <Input id = "Input_InputFrag" liveChange="onLiveChange_InputFrag"/>
+         
+            <Button width = "100%" text = "Press" id = "Button_InputFrag" press = "onClick_InputFrag"/>
+			
         </Dialog>
 		
 </core:FragmentDefinition>

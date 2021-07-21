@@ -20,7 +20,9 @@ sap.ui.define([
 		return Controller.extend("ui5demo.controller.Diagram", {
 
 			formatter: formatter,
-
+			test: function(){
+				this._oInputFragment.close();
+			},
 			onInit: function () {
 
 				var that;
@@ -166,7 +168,7 @@ sap.ui.define([
 
 				that = this;
 				oModel = this.getOwnerComponent().getModel("ODataModel");
-				oModel.callFunction("synchronize", {
+				oModel.callFunction("/synchronize", {
 					method: "GET",
 					urlParameters: {
 						Currencykey: text.toUpperCase()

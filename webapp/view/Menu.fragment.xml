@@ -3,9 +3,9 @@
 		xmlns:core="sap.ui.core">
 		
 			<Menu itemSelected = "onMenuAction_MenuFrag">
-				<MenuItem id = "item1" text = "Synchronize"/>
-				<MenuItem id = "item2" text = "Second page"/>
-				<MenuItem id = "item3" text = "Third page"/>
+				<MenuItem id = "item1" text = "Synchronize" icon = "/image/sync.png"/>
+				<MenuItem id = "item2" text = "Second page" icon = "/image/two.png"/>
+				<MenuItem id = "item3" text = "Third page" icon = "/image/three.png"/>
 			</Menu>
 		
 </core:FragmentDefinition>
