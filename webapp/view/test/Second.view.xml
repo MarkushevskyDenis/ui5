@@ -10,7 +10,6 @@
 	<Page>
 
 		<t:Table id="table"
-			enableSelectAll="false"
 			rows="{JSONModel>/results}"
 			selectionMode="MultiToggle"
 			rowSelectionChange="onSelect">

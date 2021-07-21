@@ -17,6 +17,7 @@ sap.ui.define([
 		var entities = [];
 		var defaultModel;
 		var JSONModel;
+		var flag = true;
 
 		return Controller.extend("ui5demo.controller.Second", {
 
@@ -38,18 +39,33 @@ sap.ui.define([
 				var rowIndex;
 				var i;
 
-				rowIndex = oEvent.getParameters().rowIndex;
-
-				if (rowIndex != -1) {
-					if (this._isUnique(indices, rowIndex)) {
-						indices[indices.length] = rowIndex;
-						entities[entities.length] = oEvent.getParameters().rowContext;
+				if (flag) {
+					if (oEvent.getParameters().rowIndices.length > 1) {
+						var a = indices.length;
+						var b = oEvent.getParameters().rowIndices.length
+						if (indices.length == b) {
+							indices.length = 0;
+							entities.length = 0;
+							return;
+						}
+						indices = oEvent.getParameters().rowIndices;
+						for (let j = 0; j < indices.length; j++) {
+							entities[j] = this.byId("table").getContextByIndex(indices[j]);
+						}
 					} else {
-						i = this._findElement(indices, rowIndex);
-						this._deleteElement(indices, i);
-						this._deleteElement(entities, i);
+						rowIndex = oEvent.getParameters().rowIndex;
+
+						if (this._isUnique(indices, rowIndex)) {
+							indices[indices.length] = rowIndex;
+							entities[entities.length] = oEvent.getParameters().rowContext;
+						} else {
+							i = this._findElement(indices, rowIndex);
+							this._deleteElement(indices, i);
+							this._deleteElement(entities, i);
+						}
 					}
 				}
+				flag = true;
 			},
 			getSelectedItems: function () {
 				var data = [];
@@ -64,6 +80,7 @@ sap.ui.define([
 					defaultModel.setData(data);
 					indices.length = 0;
 					entities.length = 0;
+					flag = false
 					this.byId("table").clearSelection();
 				}
 			},
