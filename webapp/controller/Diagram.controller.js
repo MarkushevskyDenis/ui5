@@ -70,20 +70,36 @@ sap.ui.define([
 				var feedValueAxis;
 				var feedCategoryAxis;
 				var that;
+				var measures = [];
+				var values = [];
 
-				if (currencyCode2 === "") {
-					currencyCode2 = " ";
-				}
-
-				if (currencyCode == "" || endDate == "" || startDate == "" || endDate == null) {
+				if (/^ +$|^$/.test(currencyCode) || endDate == "" || startDate == "" || endDate == null) {
 					sap.m.MessageToast.show("Please enter a valid data");
 					return;
 				}
 				bar = this.getView().byId("Diagram");
 				that = this;
 				this._getData().then(function (oData) {
-
 					that._createDataSet(oData);
+					if (/^ +$|^$/.test(currencyCode2) || currencyCode2 === currencyCode) {
+						measures = [{
+							name: "Rate " + currencyCode,
+							value: "{DiagramModel>Rate}"
+						}
+						];
+						values = ["Rate " + currencyCode];
+					} else {
+						measures = [{
+							name: "Rate " + currencyCode,
+							value: "{DiagramModel>Rate}"
+						},
+						{
+							name: "Rate " + currencyCode2,
+							value: "{DiagramModel>Rate2}"
+						}
+						];
+						values = ["Rate " + currencyCode, "Rate " + currencyCode2]
+					}
 					dataset = new sap.viz.ui5.data.FlattenedDataset({
 						dimensions: [{
 							axis: 1,
@@ -93,15 +109,7 @@ sap.ui.define([
 								formatter: formatter.dateFormat
 							}
 						}],
-						measures: [{
-							name: "Rate " + currencyCode,
-							value: "{DiagramModel>Rate}"
-						},
-						{
-							name: currencyCode2,
-							value: "{DiagramModel>Rate2}"
-						}
-						],
+						measures: measures,
 						data: {
 							path: "DiagramModel>/"
 						}
@@ -110,7 +118,7 @@ sap.ui.define([
 					feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 						'uid': "valueAxis",
 						'type': "Measure",
-						'values': ["Rate " + currencyCode, currencyCode2]
+						'values': values
 					});
 					feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
 						'uid': "categoryAxis",
