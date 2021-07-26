@@ -48,7 +48,7 @@
 			</l:Grid>
 		</Panel>
 
-		<List id = "ListId" headerText="{i18n>title}" width = "50%" mode = "SingleSelectMaster" selectionChange = "onSelectionChange" items="{/}">
+		<List id = "ListId" headerText="{i18n>title}" width = "50%" mode = "SingleSelectMaster" selectionChange = "onSelectionChange" items="{/resultss}">
 			<items>
 				<ObjectListItem intro="{Qty}" title="{Currencykey}" number="{Rate}"/>
 			</items>

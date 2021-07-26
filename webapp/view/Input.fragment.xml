@@ -5,7 +5,7 @@
 		<Dialog showHeader = "false">
 
 			<VBox  alignItems = "End">
-				<Button icon = "/image/close.png" press = "test" />
+				<Button icon = "/image/close.png" press = "close" />
             </VBox>
 			
             <List id = "List_InputFrag" headerText = "Choose currency or input new" mode = "SingleSelectMaster" selectionChange = "onSelectionChange_InputFrag" items = "{/results}">

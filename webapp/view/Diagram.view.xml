@@ -22,15 +22,25 @@
  			</HBox>
 		
 			<HBox alignItems = "Start" justifyContent = "Center">	
-				<ComboBox id = "ComboBox" showSecondaryValues = "true" items = "{/results}" change = "onChange" busy = "true" >
-					<core:ListItem text="{Currencykey}" additionalText = "{Qty}"/>	
-				</ComboBox>
-				<Button id = "GetDynamic" text = "Get dynamic" press = "onClick" ></Button>
+				<VBox>
+					<Label class = "color" text="Choose a currencykey(mandatory):" labelFor="ComboBox"/>
+					<ComboBox id = "ComboBox" showSecondaryValues = "true" items = "{/results}" change = "onChange" busy = "true" >
+						<core:ListItem text="{Currencykey}" additionalText = "{Qty}"/>	
+					</ComboBox>
+					<Label class = "color" text="Choose a currencykey(optional):" labelFor="ComboBox2"/>
+					<ComboBox id = "ComboBox2" showSecondaryValues = "true" items = "{/results}" change = "onChange2" busy = "true" >
+						<core:ListItem text="{Currencykey}" additionalText = "{Qty}"/>	
+					</ComboBox>
+				</VBox>
 			</HBox>
 
+			<HBox alignItems = "Start" justifyContent = "Center">	
+				<Button id = "GetDynamic" text = "Get dynamic" press = "onClick" ></Button>
+			</HBox>
+			
 		</VBox>
 	
-		<viz:controls.VizFrame id="Diagram" width = "100%" uiConfig="{applicationSet:'ui5'}" vizProperties = "{title: {visible: false}}" vizType="column" renderComplete = "onAfterRender" />
+		<viz:controls.VizFrame id="Diagram" width = "100%" uiConfig="{applicationSet:'ui5'}" vizProperties = "{title: {visible: false}}" vizType="line" renderComplete = "onAfterRender" />
 
 	</VBox>
 

@@ -77,7 +77,7 @@ sap.ui.define([
 					for (let i = 0; i < indices.length; i++) {
 						data[i] = JSONModel.getProperty(entities[i].sPath);
 					}
-					defaultModel.setData(data);
+					defaultModel.setData({"resultss": data});
 					indices.length = 0;
 					entities.length = 0;
 					flag = false

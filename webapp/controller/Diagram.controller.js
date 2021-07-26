@@ -11,20 +11,19 @@ sap.ui.define([
 		"use strict";
 
 		var currencyCode = "";
+		var currencyCode2 = ""
 		var startDate = "";
 		var endDate = "";
 		var oData1 = [];
 		const dateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({ pattern: "yyyy-MM-dd" });
 		var text = "";
 
+		var test = 1;
+
 		return Controller.extend("ui5demo.controller.Diagram", {
 
 			formatter: formatter,
-			test: function(){
-				this._oInputFragment.close();
-			},
 			onInit: function () {
-
 				var that;
 				var model;
 
@@ -35,13 +34,18 @@ sap.ui.define([
 						oData1 = oData;
 						that.onLoadItems();
 						that.byId("ComboBox").setProperty("busy", false);
+						that.byId("ComboBox2").setProperty("busy", false);
 					}
-
 				});
-
+			},
+			close: function () {
+				this._oInputFragment.close();
 			},
 			onChange: function (oControlEvent) {
 				currencyCode = oControlEvent.getParameters().value;
+			},
+			onChange2: function (oControlEvent) {
+				currencyCode2 = oControlEvent.getParameters().value;
 			},
 			onCalendarSelect: function (oControlEvent) {
 				endDate = oControlEvent.getSource().getSelectedDates()[0].mProperties.endDate;
@@ -61,74 +65,73 @@ sap.ui.define([
 				this.getView().setModel(oModel);
 			},
 			onClick: function (oEvent) {
-				var filter = [];
 				var bar;
 				var dataset;
 				var feedValueAxis;
 				var feedCategoryAxis;
+				var that;
+
+				if (currencyCode2 === "") {
+					currencyCode2 = " ";
+				}
 
 				if (currencyCode == "" || endDate == "" || startDate == "" || endDate == null) {
 					sap.m.MessageToast.show("Please enter a valid data");
 					return;
 				}
 				bar = this.getView().byId("Diagram");
-				filter = [
-					new sap.ui.model.Filter(
-						{
-							path: "Currencykey",
-							operator: sap.ui.model.FilterOperator.EQ,
-							value1: currencyCode
-						}
-					),
-					new sap.ui.model.Filter(
-						{
-							path: "Erdate",
-							operator: sap.ui.model.FilterOperator.BT,
-							value1: startDate,
-							value2: endDate
-						}
-					)];
-				dataset = new sap.viz.ui5.data.FlattenedDataset({
-					dimensions: [{
-						axis: 1,
-						name: "Date",
-						value: {
-							path: "Erdate",
-							formatter: formatter.dateFormat
-						}
-					}],
-					measures: [{
-						name: "Rate " + currencyCode,
-						value: "{Rate}"
-					}
-					],
-					data: {
-						path: "ODataModel>/zdm_i_archive",
-						filters: filter
-					}
+				that = this;
+				this._getData().then(function (oData) {
 
+					that._createDataSet(oData);
+					dataset = new sap.viz.ui5.data.FlattenedDataset({
+						dimensions: [{
+							axis: 1,
+							name: "Date",
+							value: {
+								path: "Erdate",
+								formatter: formatter.dateFormat
+							}
+						}],
+						measures: [{
+							name: "Rate " + currencyCode,
+							value: "{DiagramModel>Rate}"
+						},
+						{
+							name: currencyCode2,
+							value: "{DiagramModel>Rate2}"
+						}
+						],
+						data: {
+							path: "DiagramModel>/"
+						}
+					});
+					bar.setDataset(dataset);
+					feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+						'uid': "valueAxis",
+						'type': "Measure",
+						'values': ["Rate " + currencyCode, currencyCode2]
+					});
+					feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
+						'uid': "categoryAxis",
+						'type': "Dimension",
+						'values': ["Date"]
+					});
+					bar.removeAllFeeds();
+					bar.addFeed(feedValueAxis);
+					bar.addFeed(feedCategoryAxis);
+
+				}, function (error) {
+					console.log(error);
 				});
-				bar.setDataset(dataset);
-				feedValueAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-					'uid': "valueAxis",
-					'type': "Measure",
-					'values': ["Rate " + currencyCode]
-				});
-				feedCategoryAxis = new sap.viz.ui5.controls.common.feeds.FeedItem({
-					'uid': "categoryAxis",
-					'type': "Dimension",
-					'values': ["Date"]
-				});
-				bar.removeAllFeeds();
-				bar.addFeed(feedValueAxis);
-				bar.addFeed(feedCategoryAxis);
+
 			},
 			onAfterRender: function () {
-				if (this.getView().byId("Diagram").getDataset().mBindingInfos.data.binding.aKeys.length == 0) {
+				if (this.getView().byId("Diagram").getDataset().mBindingInfos.data.binding.oList.length == 0) {
+					document.getElementById(this.getView().oPreprocessorInfo.id + "--Diagram").setAttribute("class", "noVisible");
 					sap.m.MessageToast.show("No data");
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "page2BgImg");
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "");
-					document.getElementById(this.getView().oPreprocessorInfo.id + "--Diagram").setAttribute("class", "noVisible");
 				} else {
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "");
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "page2BgImg");
@@ -195,7 +198,7 @@ sap.ui.define([
 				text = oEvent.getParameter("value");
 				sap.ui.getCore().byId("List_InputFrag").removeSelections(true);
 			},
-			_onlyUnique: function (results) {
+			_onlyUnique1: function (results) {
 				if (results.length == 0) {
 					return results;
 				}
@@ -221,6 +224,125 @@ sap.ui.define([
 					}
 				}
 				return array;
+			},
+			_onlyUnique: function (array) {
+				if (array.length == 0) {
+					return array;
+				}
+
+				array.sort(function (first, second) {
+					if (first.Currencykey > second.Currencykey) {
+						return 1;
+					} else if (first.Currencykey < second.Currencykey) {
+						return -1;
+					} else {
+						return 0;
+					}
+				});
+				return this._deleteDuplicate(array);
+			},
+			_deleteDuplicate: function (array) {
+				for (var j = 1, i = 1; j < array.length; ++j) {
+					if (array[j].Currencykey != array[j - 1].Currencykey) {
+						array[i++] = array[j];
+					}
+				}
+				array.length = i;
+				return array;
+			},
+			_getData: function () {
+				var oModel = this.getOwnerComponent().getModel("ODataModel");
+				var oPromise = new Promise(function (resolve, reject) {
+					oModel.read("/zdm_i_archive", {
+						filters: [
+							new sap.ui.model.Filter(
+								{
+									path: "Currencykey",
+									operator: sap.ui.model.FilterOperator.EQ,
+									value1: currencyCode
+								}
+							),
+							new sap.ui.model.Filter(
+								{
+									path: "Currencykey",
+									operator: sap.ui.model.FilterOperator.EQ,
+									value1: currencyCode2
+								}
+							),
+							new sap.ui.model.Filter(
+								{
+									path: "Erdate",
+									operator: sap.ui.model.FilterOperator.BT,
+									value1: startDate,
+									value2: endDate
+								}
+							)],
+						success: function (oData) {
+							resolve(oData);
+						},
+						error: function (oError) {
+							reject(oError.statusCode);
+						}
+
+					});
+				});
+				return oPromise;
+			},
+			_createDataSet: function (oData) {
+				var array = oData.results;
+				var result = [];
+				var rate1 = [];
+				var rate2 = [];
+
+				function resultRate(Erdate, Currencykey, Currencykey2, Rate, Rate2) {
+					this.Erdate = Erdate;
+					this.Currencykey = Currencykey;
+					this.Currencykey2 = Currencykey2;
+					this.Rate = Rate;
+					this.Rate2 = Rate2;
+				}
+				function Rate(Erdate, Currencykey, Rate) {
+					this.Erdate = Erdate;
+					this.Currencykey = Currencykey;
+					this.Rate = Rate;
+				}
+				function fillByFirst() {
+					for (let i = 0; i < rate1.length; i++) {
+						result[result.length] = new resultRate(rate1[i].Erdate, rate1[i].Currencykey, null, rate1[i].Rate, null);
+					}
+				}
+				function fillBySecond() {
+					for (let i = 0; i < rate2.length; i++) {
+						result[result.length] = new resultRate(rate2[i].Erdate, null, rate2[i].Currencykey, null, rate2[i].Rate);
+					}
+				}
+				for (let i = 0, j = 0, k = 0; i < array.length; i++) {
+					if (array[i].Currencykey === currencyCode) {
+						rate1[j] = new Rate(array[i].Erdate, array[i].Currencykey, array[i].Rate);
+						j++;
+					} else if (array[i].Currencykey === currencyCode2) {
+						rate2[k] = new Rate(array[i].Erdate, array[i].Currencykey, array[i].Rate);
+						k++;
+					}
+				}
+
+				if (rate1.length == 0 && rate2.length == 0) {
+					this.getView().setModel(new sap.ui.model.json.JSONModel(result), "DiagramModel");
+					return;
+				} else if (rate1.length == 0) {
+					fillBySecond();
+				} else if (rate2.length == 0) {
+					fillByFirst();
+				} else {
+					if (rate1[0].Erdate <= rate2[0].Erdate) {
+						fillByFirst();
+						fillBySecond();
+					} else {
+						fillBySecond();
+						fillByFirst();
+					}
+				}
+				this.getView().setModel(new sap.ui.model.json.JSONModel(result), "DiagramModel");
 			}
 		});
 	});
