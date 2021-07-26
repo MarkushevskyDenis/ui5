@@ -55,7 +55,6 @@ sap.ui.define([
 				}
 				endDate = dateFormat.format(new Date(endDate));
 				startDate = dateFormat.format(new Date(oControlEvent.getSource().getSelectedDates()[0].mProperties.startDate));
-
 			},
 			onLoadItems: function () {
 				var oModel;
@@ -137,7 +136,7 @@ sap.ui.define([
 			onAfterRender: function () {
 				if (this.getView().byId("Diagram").getDataset().mBindingInfos.data.binding.oList.length == 0) {
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--Diagram").setAttribute("class", "noVisible");
-					sap.m.MessageToast.show("No data");
+					sap.m.MessageToast.show("No data found");
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--MainBox").setAttribute("class", "page2BgImg");
 					document.getElementById(this.getView().oPreprocessorInfo.id + "--SecondBox").setAttribute("class", "");
 				} else {
